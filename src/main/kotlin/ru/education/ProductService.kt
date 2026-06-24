@@ -33,4 +33,6 @@ class ProductService {
 
     fun getProductDescriptionText(product: Product): String = product.description ?: "No description"
 
+    fun getAvailableProducts(products: List<Product>): List<Product> =
+        products.filter { productItem -> ProductStatus.AVAILABLE == productItem.status }
 }

@@ -63,7 +63,7 @@ fun main() {
     println("Original quantity: ${product1.quantity}")
     println("Updated quantity: ${updatedProduct.quantity}")
 
-    val publishedProduct = product1.copy(id = 1243126L, status = ProductStatus.AVAILABLE)
+    val publishedProduct = product1.copy(id = 1243126L, status = ProductStatus.NEW)
     println("Original status: ${product1.status}")
     println("Published status: ${publishedProduct.status}")
 
@@ -93,14 +93,12 @@ fun main() {
         }
     }
 
-    val availableProducts = products.filter { productItem ->
-        productItem.status == ProductStatus.AVAILABLE
-    }
+    val availableProducts = productService.getAvailableProducts(products)
 
-    println("Available products: ${availableProducts.size}")
+    println("Available products from service:")
 
     for (availableProduct in availableProducts) {
-        println("Available product: ${availableProduct.name}, status: ${availableProduct.status}")
+        println(availableProduct.name)
     }
 
     val firstAvailableProduct = products.find { productItem -> productItem.status == ProductStatus.AVAILABLE }
