@@ -93,9 +93,7 @@ fun main() {
         }
     }
 
-    val availableProducts = products.filter { productItem ->
-        productItem.status == ProductStatus.AVAILABLE
-    }
+    val availableProducts = productService.getAvailableProducts(products)
 
     println("Available products: ${availableProducts.size}")
 
