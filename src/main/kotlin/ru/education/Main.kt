@@ -110,7 +110,7 @@ fun main() {
     val productNames = productService.getProductNames(products)
     println("Product names: $productNames")
 
-    val productIds = products.map { productItem -> productItem.id }
+    val productIds = productService.getProductIds(products)
     println("Product ids: $productIds")
 
     val productTotalPrices = products.map { productItem -> productService.calculateTotalPriceKopecks(productItem) }

@@ -38,4 +38,7 @@ class ProductService {
 
     fun getProductNames(products: List<Product>): List<String> =
         products.map { productItem -> productItem.name }
+
+    fun getProductIds(products: List<Product>): List<Long> =
+        products.map { productItem -> productItem.id }
 }
