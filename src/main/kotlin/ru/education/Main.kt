@@ -116,7 +116,7 @@ fun main() {
     val productTotalPrices = productService.getProductTotalPrices(products)
     println("Product total prices: $productTotalPrices")
 
-    val allProductPrices = productTotalPrices.sum()
+    val allProductPrices = productService.calculateProductsTotalPrice(products)
     println("All products total price: $allProductPrices")
 
     val allProductPricesSumOf = products.sumOf { productItem -> productService.calculateTotalPriceKopecks(productItem) }

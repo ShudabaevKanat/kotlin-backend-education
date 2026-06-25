@@ -44,4 +44,7 @@ class ProductService {
 
     fun getProductTotalPrices(products: List<Product>): List<Int> =
         products.map { productItem -> calculateTotalPriceKopecks(productItem) }
+
+    fun calculateProductsTotalPrice(products: List<Product>): Int =
+        products.sumOf { productItem -> calculateTotalPriceKopecks(productItem) }
 }
