@@ -35,4 +35,7 @@ class ProductService {
 
     fun getAvailableProducts(products: List<Product>): List<Product> =
         products.filter { productItem -> productItem.status == ProductStatus.AVAILABLE }
+
+    fun getProductNames(products: List<Product>): List<String> =
+        products.map { productItem -> productItem.name }
 }

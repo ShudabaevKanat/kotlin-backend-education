@@ -107,7 +107,7 @@ fun main() {
     val firstIdProduct = products.find { productItem -> productItem.id == 1243124L }
     println("First id: ${firstIdProduct?.id ?: "Not found"}")
 
-    val productNames = products.map { productItem -> productItem.name }
+    val productNames = productService.getProductNames(products)
     println("Product names: $productNames")
 
     val productIds = products.map { productItem -> productItem.id }
