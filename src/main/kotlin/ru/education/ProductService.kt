@@ -61,4 +61,7 @@ class ProductService {
 
     fun getProductsById(products: List<Product>): Map<Long, Product> =
         products.associateBy { productItem -> productItem.id }
+
+    fun getProductTypes(products: List<Product>): Set<ProductType> =
+        products.map { productItem -> productItem.type }.toSet()
 }

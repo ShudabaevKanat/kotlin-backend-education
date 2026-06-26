@@ -147,7 +147,7 @@ fun main() {
     val productStatuses = productService.getProductStatuses(products)
     println("Product statuses: $productStatuses")
 
-    val productTypes = products.map { productItem -> productItem.type }.toSet()
+    val productTypes = productService.getProductTypes(products)
     println("Product types: $productTypes")
 
     val uniqueProductIds = productService.getUniqueProductIds(products)
