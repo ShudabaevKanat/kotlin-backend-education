@@ -107,24 +107,22 @@ fun main() {
     val firstIdProduct = products.find { productItem -> productItem.id == 1243124L }
     println("First id: ${firstIdProduct?.id ?: "Not found"}")
 
-    val productNames = products.map { productItem -> productItem.name }
+    val productNames = productService.getProductNames(products)
     println("Product names: $productNames")
 
-    val productIds = products.map { productItem -> productItem.id }
+    val productIds = productService.getProductIds(products)
     println("Product ids: $productIds")
 
-    val productTotalPrices = products.map { productItem -> productService.calculateTotalPriceKopecks(productItem) }
+    val productTotalPrices = productService.getProductTotalPrices(products)
     println("Product total prices: $productTotalPrices")
 
-    val allProductPrices = productTotalPrices.sum()
+    val allProductPrices = productService.calculateProductsTotalPrice(products)
     println("All products total price: $allProductPrices")
 
     val allProductPricesSumOf = products.sumOf { productItem -> productService.calculateTotalPriceKopecks(productItem) }
     println("All products total price sumOf: $allProductPricesSumOf")
 
-    val availableProductsTotalPrice = products
-        .filter { productItem -> productItem.status == ProductStatus.AVAILABLE }
-        .sumOf { productItem -> productService.calculateTotalPriceKopecks(productItem) }
+    val availableProductsTotalPrice = productService.calculateAvailableProductsTotalPrice(products)
     println("Available products total price: $availableProductsTotalPrice")
 
     val mutableProducts = mutableListOf(product1, updatedProduct)
@@ -146,16 +144,16 @@ fun main() {
     mutableProducts[0] = mutableProducts[0].copy(quantity = 20)
     println("First mutable product updated quantity: ${mutableProducts[0].quantity}")
 
-    val productStatuses = products.map { productItem -> productItem.status }.toSet()
+    val productStatuses = productService.getProductStatuses(products)
     println("Product statuses: $productStatuses")
 
-    val productTypes = products.map { productItem -> productItem.type }.toSet()
+    val productTypes = productService.getProductTypes(products)
     println("Product types: $productTypes")
 
-    val uniqueProductIds = products.map { productItem -> productItem.id }.toSet()
+    val uniqueProductIds = productService.getUniqueProductIds(products)
     println("Unique product ids: $uniqueProductIds")
 
-    val productsById = products.associateBy { productItem -> productItem.id }
+    val productsById = productService.getProductsById(products)
     println("Products by id: $productsById")
 
     val productFromMap = productsById[1243124L]

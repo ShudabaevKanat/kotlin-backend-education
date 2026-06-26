@@ -35,4 +35,33 @@ class ProductService {
 
     fun getAvailableProducts(products: List<Product>): List<Product> =
         products.filter { productItem -> productItem.status == ProductStatus.AVAILABLE }
+
+    fun getProductNames(products: List<Product>): List<String> =
+        products.map { productItem -> productItem.name }
+
+    fun getProductIds(products: List<Product>): List<Long> =
+        products.map { productItem -> productItem.id }
+
+    fun getProductTotalPrices(products: List<Product>): List<Int> =
+        products.map { productItem -> calculateTotalPriceKopecks(productItem) }
+
+    fun calculateProductsTotalPrice(products: List<Product>): Int =
+        products.sumOf { productItem -> calculateTotalPriceKopecks(productItem) }
+
+    fun calculateAvailableProductsTotalPrice(products: List<Product>): Int {
+        val availableProducts = getAvailableProducts(products)
+        return calculateProductsTotalPrice(availableProducts)
+    }
+
+    fun getProductStatuses(products: List<Product>): Set<ProductStatus> =
+        products.map { productItem -> productItem.status }.toSet()
+
+    fun getUniqueProductIds(products: List<Product>): Set<Long> =
+        products.map { productItem -> productItem.id }.toSet()
+
+    fun getProductsById(products: List<Product>): Map<Long, Product> =
+        products.associateBy { productItem -> productItem.id }
+
+    fun getProductTypes(products: List<Product>): Set<ProductType> =
+        products.map { productItem -> productItem.type }.toSet()
 }
