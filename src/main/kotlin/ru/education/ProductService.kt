@@ -56,6 +56,9 @@ class ProductService {
     fun getProductStatuses(products: List<Product>): Set<ProductStatus> =
         products.map { productItem -> productItem.status }.toSet()
 
-    fun getProductsByIds (products: List<Product>): Set<Long> =
+    fun getUniqueProductIds(products: List<Product>): Set<Long> =
         products.map { productItem -> productItem.id }.toSet()
+
+    fun getProductsById(products: List<Product>): Map<Long, Product> =
+        products.associateBy { productItem -> productItem.id }
 }

@@ -150,10 +150,10 @@ fun main() {
     val productTypes = products.map { productItem -> productItem.type }.toSet()
     println("Product types: $productTypes")
 
-    val uniqueProductIds = productService.getProductsByIds(products)
+    val uniqueProductIds = productService.getUniqueProductIds(products)
     println("Unique product ids: $uniqueProductIds")
 
-    val productsById = products.associateBy { productItem -> productItem.id }
+    val productsById = productService.getProductsById(products)
     println("Products by id: $productsById")
 
     val productFromMap = productsById[1243124L]
