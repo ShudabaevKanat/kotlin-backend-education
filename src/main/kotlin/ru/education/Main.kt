@@ -144,13 +144,13 @@ fun main() {
     mutableProducts[0] = mutableProducts[0].copy(quantity = 20)
     println("First mutable product updated quantity: ${mutableProducts[0].quantity}")
 
-    val productStatuses = products.map { productItem -> productItem.status }.toSet()
+    val productStatuses = productService.getProductStatuses(products)
     println("Product statuses: $productStatuses")
 
     val productTypes = products.map { productItem -> productItem.type }.toSet()
     println("Product types: $productTypes")
 
-    val uniqueProductIds = products.map { productItem -> productItem.id }.toSet()
+    val uniqueProductIds = productService.getProductsByIds(products)
     println("Unique product ids: $uniqueProductIds")
 
     val productsById = products.associateBy { productItem -> productItem.id }

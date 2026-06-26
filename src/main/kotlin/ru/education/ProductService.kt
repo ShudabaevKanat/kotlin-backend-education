@@ -52,4 +52,10 @@ class ProductService {
         val availableProducts = getAvailableProducts(products)
         return calculateProductsTotalPrice(availableProducts)
     }
+
+    fun getProductStatuses(products: List<Product>): Set<ProductStatus> =
+        products.map { productItem -> productItem.status }.toSet()
+
+    fun getProductsByIds (products: List<Product>): Set<Long> =
+        products.map { productItem -> productItem.id }.toSet()
 }
