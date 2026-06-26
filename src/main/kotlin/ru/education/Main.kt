@@ -122,9 +122,7 @@ fun main() {
     val allProductPricesSumOf = products.sumOf { productItem -> productService.calculateTotalPriceKopecks(productItem) }
     println("All products total price sumOf: $allProductPricesSumOf")
 
-    val availableProductsTotalPrice = products
-        .filter { productItem -> productItem.status == ProductStatus.AVAILABLE }
-        .sumOf { productItem -> productService.calculateTotalPriceKopecks(productItem) }
+    val availableProductsTotalPrice = productService.calculateAvailableProductsTotalPrice(products)
     println("Available products total price: $availableProductsTotalPrice")
 
     val mutableProducts = mutableListOf(product1, updatedProduct)

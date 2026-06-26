@@ -47,4 +47,9 @@ class ProductService {
 
     fun calculateProductsTotalPrice(products: List<Product>): Int =
         products.sumOf { productItem -> calculateTotalPriceKopecks(productItem) }
+
+    fun calculateAvailableProductsTotalPrice(products: List<Product>): Int {
+        val availableProducts = getAvailableProducts(products)
+        return calculateProductsTotalPrice(availableProducts)
+    }
 }
