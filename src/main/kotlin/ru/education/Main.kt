@@ -110,6 +110,14 @@ fun main() {
     val requiredProduct = productService.requireProductById(products, 1243124L)
     println("Required product: ${requiredProduct.name}")
 
+    val productsWithUpdateQuantity = productService.updateProductQuantity(products, 1243124L, newQuantity = 200)
+    val productWithUpdateQuantity = productService.requireProductById(productsWithUpdateQuantity, 1243124L)
+    println("Updated product quantity: ${productWithUpdateQuantity.quantity}")
+
+    val productsWithUpdateStatus = productService.updateProductStatus(productsWithUpdateQuantity, 1243124L, ProductStatus.BLOCKED)
+    val productWithUpdateStatus = productService.requireProductById(productsWithUpdateStatus, 1243124L)
+    println("Updated product status: ${productWithUpdateStatus.status}")
+
     try {
         val missingProduct = productService.requireProductById(products, 124312124L)
         println("Missing product: ${missingProduct.name}")
