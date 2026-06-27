@@ -101,11 +101,21 @@ fun main() {
         println("Available product: ${availableProduct.name}, status: ${availableProduct.status}")
     }
 
-    val firstAvailableProduct = products.find { productItem -> productItem.status == ProductStatus.AVAILABLE }
+    val firstAvailableProduct = productService.findFirstAvailableProduct(products)
     println("First available product: ${firstAvailableProduct?.name ?: "Not found"}")
 
-    val firstIdProduct = products.find { productItem -> productItem.id == 1243124L }
+    val firstIdProduct = productService.findProductById(products, 1243124L)
     println("First id: ${firstIdProduct?.id ?: "Not found"}")
+
+    val requiredProduct = productService.requireProductById(products, 1243124L)
+    println("Required product: ${requiredProduct.name}")
+
+    try {
+        val missingProduct = productService.requireProductById(products, 124312124L)
+        println("Missing product: ${missingProduct.name}")
+    } catch (e: IllegalArgumentException) {
+        println("Error: ${e.message}")
+    }
 
     val productNames = productService.getProductNames(products)
     println("Product names: $productNames")

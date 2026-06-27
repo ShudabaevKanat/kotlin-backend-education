@@ -64,4 +64,18 @@ class ProductService {
 
     fun getProductTypes(products: List<Product>): Set<ProductType> =
         products.map { productItem -> productItem.type }.toSet()
+
+    fun findProductById(products: List<Product>, productId: Long): Product? =
+        products.find { productItem -> productItem.id == productId }
+
+    fun findFirstAvailableProduct(products: List<Product>): Product? =
+        products.find { productItem -> productItem.status == ProductStatus.AVAILABLE }
+
+    fun requireProductById(products: List<Product>, productId: Long): Product {
+        val product = findProductById(products, productId)
+        if (product == null) {
+            throw IllegalArgumentException("Product with id $productId not found")
+        }
+        return product
+    }
 }
