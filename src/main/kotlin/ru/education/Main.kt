@@ -111,8 +111,8 @@ fun main() {
     println("Required product: ${requiredProduct.name}")
 
     try {
-        productService.requireProductById(products, 1243112324L)
-        println("Required product: ${requiredProduct.name}")
+        val missingProduct = productService.findProductById(products, 124312124L)
+        println("Missing product: ${missingProduct?.name}")
     } catch (e: IllegalArgumentException) {
         println("Error: ${e.message}")
     }
