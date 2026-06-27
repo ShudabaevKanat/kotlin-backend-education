@@ -73,9 +73,11 @@ class ProductService {
 
     fun requireProductById(products: List<Product>, productId: Long): Product {
         val product = findProductById(products, productId)
+
         if (product == null) {
             throw IllegalArgumentException("Product with id $productId not found")
         }
+
         return product
     }
 
@@ -83,7 +85,9 @@ class ProductService {
         if (newQuantity <= 0) {
             throw IllegalArgumentException("New quantity $newQuantity is not valid")
         }
+
         requireProductById(products, productId)
+
         return products.map { productItem ->
             if (productItem.id == productId) {
                 productItem.copy(quantity = newQuantity)
@@ -95,12 +99,21 @@ class ProductService {
 
     fun updateProductStatus(products: List<Product>, productId: Long, newStatus: ProductStatus): List<Product> {
         requireProductById(products, productId)
+
         return products.map { productItem ->
             if (productItem.id == productId) {
                 productItem.copy(status = newStatus)
             } else {
                 productItem
             }
+        }
+    }
+
+    fun deleteProductById(products: List<Product>, productId: Long): List<Product> {
+        requireProductById(products, productId)
+
+        return products.filter { productItem ->
+            productItem.id != productId
         }
     }
 }
