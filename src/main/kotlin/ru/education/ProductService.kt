@@ -78,4 +78,29 @@ class ProductService {
         }
         return product
     }
+
+    fun updateProductQuantity(products: List<Product>, productId: Long, newQuantity: Int): List<Product> {
+        if (newQuantity <= 0) {
+            throw IllegalArgumentException("New quantity $newQuantity is not valid")
+        }
+        requireProductById(products, productId)
+        return products.map { productItem ->
+            if (productItem.id == productId) {
+                productItem.copy(quantity = newQuantity)
+            } else {
+                productItem
+            }
+        }
+    }
+
+    fun updateProductStatus(products: List<Product>, productId: Long, newStatus: ProductStatus): List<Product> {
+        requireProductById(products, productId)
+        return products.map { productItem ->
+            if (productItem.id == productId) {
+                productItem.copy(status = newStatus)
+            } else {
+                productItem
+            }
+        }
+    }
 }
