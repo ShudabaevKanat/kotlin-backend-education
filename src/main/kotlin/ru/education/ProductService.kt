@@ -116,4 +116,13 @@ class ProductService {
             productItem.id != productId
         }
     }
+
+    fun addProduct(products: List<Product>, newProduct: Product): List<Product> {
+        validateProductData(newProduct)
+        val existingProduct = findProductById(products, newProduct.id)
+        if (existingProduct != null) {
+           throw IllegalArgumentException("Product with id ${existingProduct.id} already exists")
+        }
+        return products + newProduct
+    }
 }
