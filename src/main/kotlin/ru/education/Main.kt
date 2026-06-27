@@ -151,7 +151,7 @@ fun main() {
     val addedProduct = productService.requireProductById(productsWithNewProduct, 1243999L)
     println("Old product count: ${products.size}")
     println("New product count: ${productsWithNewProduct.size}")
-    println("Add product name: ${addedProduct.name}")
+    println("Added product name: ${addedProduct.name}")
 
     val productNames = productService.getProductNames(products)
     println("Product names: $productNames")
