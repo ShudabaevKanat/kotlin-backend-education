@@ -114,7 +114,8 @@ fun main() {
     val productWithUpdateQuantity = productService.requireProductById(productsWithUpdateQuantity, 1243124L)
     println("Updated product quantity: ${productWithUpdateQuantity.quantity}")
 
-    val productsWithUpdateStatus = productService.updateProductStatus(productsWithUpdateQuantity, 1243124L, ProductStatus.BLOCKED)
+    val productsWithUpdateStatus =
+        productService.updateProductStatus(productsWithUpdateQuantity, 1243124L, ProductStatus.BLOCKED)
     val productWithUpdateStatus = productService.requireProductById(productsWithUpdateStatus, 1243124L)
     println("Updated product status: ${productWithUpdateStatus.status}")
 
@@ -131,6 +132,26 @@ fun main() {
     } catch (e: IllegalArgumentException) {
         println("Error: ${e.message}")
     }
+
+    val newProduct = Product(
+        id = 1243999L,
+        name = "Ноутбук",
+        priceKopecks = 8999900,
+        quantity = 12,
+        status = ProductStatus.AVAILABLE,
+        type = ProductType.ELECTRONICS,
+        hasPromoCode = true,
+        hasDiscount = false,
+        isAvailable = true,
+        description = "Игровой ноутбук"
+    )
+
+    val productsWithNewProduct = productService.addProduct(products, newProduct)
+
+    val addedProduct = productService.requireProductById(productsWithNewProduct, 1243999L)
+    println("Old product count: ${products.size}")
+    println("New product count: ${productsWithNewProduct.size}")
+    println("Add product name: ${addedProduct.name}")
 
     val productNames = productService.getProductNames(products)
     println("Product names: $productNames")
