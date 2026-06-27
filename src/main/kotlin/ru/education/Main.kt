@@ -118,6 +118,13 @@ fun main() {
     val productWithUpdateStatus = productService.requireProductById(productsWithUpdateStatus, 1243124L)
     println("Updated product status: ${productWithUpdateStatus.status}")
 
+    val productsAfterDelete = productService.deleteProductById(products, 1243124L)
+    println("Old products size: ${products.size}")
+    println("Products after delete size: ${productsAfterDelete.size}")
+
+    val deletedProduct = productService.findProductById(productsAfterDelete, 1243124L)
+    println("Deleted product: ${deletedProduct?.name ?: "Not found"}")
+
     try {
         val missingProduct = productService.requireProductById(products, 124312124L)
         println("Missing product: ${missingProduct.name}")
