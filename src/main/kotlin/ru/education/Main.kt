@@ -122,8 +122,8 @@ fun main() {
     println("Old products size: ${products.size}")
     println("Products after delete size: ${productsAfterDelete.size}")
 
-    val deleteProduct = productService.findProductById(productsAfterDelete, 1243124L)
-    println("Deleted product: ${deleteProduct?.name ?: "Not found"}")
+    val deletedProduct = productService.findProductById(productsAfterDelete, 1243124L)
+    println("Deleted product: ${deletedProduct?.name ?: "Not found"}")
 
     try {
         val missingProduct = productService.requireProductById(products, 124312124L)
