@@ -116,6 +116,13 @@ fun runFindProductDemo(productService: ProductService, products: List<Product>) 
 
     val requiredProduct = productService.requireProductById(products, 1243124L)
     println("Required product: ${requiredProduct.name}")
+
+    try {
+        val missingProduct = productService.requireProductById(products, 124312124L)
+        println("Missing product: ${missingProduct.name}")
+    } catch (e: IllegalArgumentException) {
+        println("Error: ${e.message}")
+    }
 }
 
 fun runProductCollectionDemo(productService: ProductService, products: List<Product>) {
@@ -158,7 +165,7 @@ fun runProductCollectionDemo(productService: ProductService, products: List<Prod
     println("Has product with id 1243124: $hasProductWithId")
 }
 
-fun runAvailableProductDemo(productService: ProductService, products: List<Product>) {
+fun runAvailableProductsDemo(productService: ProductService, products: List<Product>) {
     val availableProducts = productService.getAvailableProducts(products)
 
     println("Available products: ${availableProducts.size}")
@@ -185,7 +192,7 @@ fun runValidateProductsDemo(productService: ProductService, products: List<Produ
     }
 }
 
-fun runMutableProductDemo(product1: Product, updatedProduct: Product, publishedProduct: Product) {
+fun runMutableProductsDemo(product1: Product, updatedProduct: Product, publishedProduct: Product) {
     val mutableProducts = mutableListOf(product1, updatedProduct)
 
     println("Mutable products count before add: ${mutableProducts.size}")
@@ -207,7 +214,7 @@ fun runMutableProductDemo(product1: Product, updatedProduct: Product, publishedP
 
 }
 
-fun runSingleProductDemo(product1: Product, productService: ProductService) {
+fun runSingleProductDemo(productService: ProductService, product1: Product) {
     try {
         productService.validateProductData(product1)
 
@@ -307,7 +314,7 @@ fun main() {
 
     runValidateProductsDemo(productService, products)
 
-    runAvailableProductDemo(productService, products)
+    runAvailableProductsDemo(productService, products)
 
     runFindProductDemo(productService, products)
 
@@ -319,7 +326,7 @@ fun main() {
 
     runProductCollectionDemo(productService, products)
 
-    runMutableProductDemo(product1, updatedProduct, publishedProduct)
+    runMutableProductsDemo(product1, updatedProduct, publishedProduct)
 
-    runSingleProductDemo(product1, productService)
+    runSingleProductDemo(productService, product1)
 }
