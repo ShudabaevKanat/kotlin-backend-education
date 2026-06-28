@@ -17,9 +17,7 @@ fun printTotalPrice(totalRubles: Int, totalKopecksRest: Int) {
     println("Total: $totalRubles rubles $totalKopecksRest kopecks")
 }
 
-fun main() {
-
-
+fun createProducts(): List<Product> {
     val product1 = Product(
         id = 1243124L,
         name = "Шоколад",
@@ -58,82 +56,13 @@ fun main() {
         type = ProductType.ELECTRONICS,
         description = "Мощный сочный",
     )
-
-    val updatedProduct = product1.copy(id = 1243125L, quantity = 10)
-    println("Original quantity: ${product1.quantity}")
-    println("Updated quantity: ${updatedProduct.quantity}")
-
-    val publishedProduct = product1.copy(id = 1243126L, status = ProductStatus.AVAILABLE)
-    println("Original status: ${product1.status}")
-    println("Published status: ${publishedProduct.status}")
-
     val invalidProduct = product1.copy(id = 1243127L, quantity = 0)
 
-    val products = listOf(product1, product2, product3, invalidProduct)
+    return listOf(product1, product2, product3, invalidProduct)
+}
 
-    println("Products count: ${products.size}")
-    println("First product name: ${products[0].name}")
-    println("Second product quantity: ${products[1].quantity}")
-    println("Third product status: ${products[2].status}")
-
-    val productService = ProductService()
-
-    for (productItem in products) {
-        try {
-            productService.validateProductData(productItem)
-
-            val itemTotalPriceKopecks = productService.calculateTotalPriceKopecks(productItem)
-            val itemIsExpensive = productService.isExpensive(productItem)
-            val itemStatusDescription = productService.getProductStatusDescription(productItem)
-            val itemTypeDescription = productService.getProductTypeDescription(productItem)
-
-            println("Product in list: ${productItem.name}, quantity: ${productItem.quantity}, status: ${productItem.status}, total: $itemTotalPriceKopecks, expensive: $itemIsExpensive, status description: $itemStatusDescription, type description: $itemTypeDescription")
-        } catch (e: IllegalArgumentException) {
-            println("Invalid product: ${productItem.name}, error: ${e.message}")
-        }
-    }
-
-    val availableProducts = productService.getAvailableProducts(products)
-
-    println("Available products: ${availableProducts.size}")
-
-    for (availableProduct in availableProducts) {
-        println("Available product: ${availableProduct.name}, status: ${availableProduct.status}")
-    }
-
-    val firstAvailableProduct = productService.findFirstAvailableProduct(products)
-    println("First available product: ${firstAvailableProduct?.name ?: "Not found"}")
-
-    val firstIdProduct = productService.findProductById(products, 1243124L)
-    println("First id: ${firstIdProduct?.id ?: "Not found"}")
-
-    val requiredProduct = productService.requireProductById(products, 1243124L)
-    println("Required product: ${requiredProduct.name}")
-
-    val productsWithUpdateQuantity = productService.updateProductQuantity(products, 1243124L, newQuantity = 200)
-    val productWithUpdateQuantity = productService.requireProductById(productsWithUpdateQuantity, 1243124L)
-    println("Updated product quantity: ${productWithUpdateQuantity.quantity}")
-
-    val productsWithUpdateStatus =
-        productService.updateProductStatus(productsWithUpdateQuantity, 1243124L, ProductStatus.BLOCKED)
-    val productWithUpdateStatus = productService.requireProductById(productsWithUpdateStatus, 1243124L)
-    println("Updated product status: ${productWithUpdateStatus.status}")
-
-    val productsAfterDelete = productService.deleteProductById(products, 1243124L)
-    println("Old products size: ${products.size}")
-    println("Products after delete size: ${productsAfterDelete.size}")
-
-    val deletedProduct = productService.findProductById(productsAfterDelete, 1243124L)
-    println("Deleted product: ${deletedProduct?.name ?: "Not found"}")
-
-    try {
-        val missingProduct = productService.requireProductById(products, 124312124L)
-        println("Missing product: ${missingProduct.name}")
-    } catch (e: IllegalArgumentException) {
-        println("Error: ${e.message}")
-    }
-
-    val newProduct = Product(
+fun createNewProduct(): Product {
+    return Product(
         id = 1243999L,
         name = "Ноутбук",
         priceKopecks = 8999900,
@@ -145,7 +74,10 @@ fun main() {
         isAvailable = true,
         description = "Игровой ноутбук"
     )
+}
 
+fun runAddProductDemo(productService: ProductService, products: List<Product>) {
+    val newProduct = createNewProduct()
     val productsWithNewProduct = productService.addProduct(products, newProduct)
 
     val addedProduct = productService.requireProductById(productsWithNewProduct, 1243999L)
@@ -153,6 +85,47 @@ fun main() {
     println("New product count: ${productsWithNewProduct.size}")
     println("Added product name: ${addedProduct.name}")
 
+}
+
+fun runUpdateProductDemo(productService: ProductService, products: List<Product>) {
+    val productsWithUpdateQuantity = productService.updateProductQuantity(products, 1243124L, newQuantity = 200)
+    val productWithUpdateQuantity = productService.requireProductById(productsWithUpdateQuantity, 1243124L)
+    println("Updated product quantity: ${productWithUpdateQuantity.quantity}")
+
+    val productsWithUpdateStatus =
+        productService.updateProductStatus(productsWithUpdateQuantity, 1243124L, ProductStatus.BLOCKED)
+    val productWithUpdateStatus = productService.requireProductById(productsWithUpdateStatus, 1243124L)
+    println("Updated product status: ${productWithUpdateStatus.status}")
+}
+
+fun runDeleteProductDemo(productService: ProductService, products: List<Product>) {
+    val productsAfterDelete = productService.deleteProductById(products, 1243124L)
+    println("Old products size: ${products.size}")
+    println("Products after delete size: ${productsAfterDelete.size}")
+
+    val deletedProduct = productService.findProductById(productsAfterDelete, 1243124L)
+    println("Deleted product: ${deletedProduct?.name ?: "Not found"}")
+}
+
+fun runFindProductDemo(productService: ProductService, products: List<Product>) {
+    val firstAvailableProduct = productService.findFirstAvailableProduct(products)
+    println("First available product: ${firstAvailableProduct?.name ?: "Not found"}")
+
+    val firstIdProduct = productService.findProductById(products, 1243124L)
+    println("First id: ${firstIdProduct?.id ?: "Not found"}")
+
+    val requiredProduct = productService.requireProductById(products, 1243124L)
+    println("Required product: ${requiredProduct.name}")
+
+    try {
+        val missingProduct = productService.requireProductById(products, 124312124L)
+        println("Missing product: ${missingProduct.name}")
+    } catch (e: IllegalArgumentException) {
+        println("Error: ${e.message}")
+    }
+}
+
+fun runProductCollectionDemo(productService: ProductService, products: List<Product>) {
     val productNames = productService.getProductNames(products)
     println("Product names: $productNames")
 
@@ -170,25 +143,6 @@ fun main() {
 
     val availableProductsTotalPrice = productService.calculateAvailableProductsTotalPrice(products)
     println("Available products total price: $availableProductsTotalPrice")
-
-    val mutableProducts = mutableListOf(product1, updatedProduct)
-
-    println("Mutable products count before add: ${mutableProducts.size}")
-
-    mutableProducts.add(publishedProduct)
-
-    println("Mutable products count after add: ${mutableProducts.size}")
-
-    mutableProducts.remove(product1)
-
-    println("Mutable products count after remove: ${mutableProducts.size}")
-
-    for (mutableProduct in mutableProducts) {
-        println("Mutable product: ${mutableProduct.name}, status: ${mutableProduct.status}")
-    }
-
-    mutableProducts[0] = mutableProducts[0].copy(quantity = 20)
-    println("First mutable product updated quantity: ${mutableProducts[0].quantity}")
 
     val productStatuses = productService.getProductStatuses(products)
     println("Product statuses: $productStatuses")
@@ -209,7 +163,58 @@ fun main() {
 
     val hasProductWithId = productsById.containsKey(1243124L)
     println("Has product with id 1243124: $hasProductWithId")
+}
 
+fun runAvailableProductsDemo(productService: ProductService, products: List<Product>) {
+    val availableProducts = productService.getAvailableProducts(products)
+
+    println("Available products: ${availableProducts.size}")
+
+    for (availableProduct in availableProducts) {
+        println("Available product: ${availableProduct.name}, status: ${availableProduct.status}")
+    }
+}
+
+fun runValidateProductsDemo(productService: ProductService, products: List<Product>) {
+    for (productItem in products) {
+        try {
+            productService.validateProductData(productItem)
+
+            val itemTotalPriceKopecks = productService.calculateTotalPriceKopecks(productItem)
+            val itemIsExpensive = productService.isExpensive(productItem)
+            val itemStatusDescription = productService.getProductStatusDescription(productItem)
+            val itemTypeDescription = productService.getProductTypeDescription(productItem)
+
+            println("Product in list: ${productItem.name}, quantity: ${productItem.quantity}, status: ${productItem.status}, total: $itemTotalPriceKopecks, expensive: $itemIsExpensive, status description: $itemStatusDescription, type description: $itemTypeDescription")
+        } catch (e: IllegalArgumentException) {
+            println("Invalid product: ${productItem.name}, error: ${e.message}")
+        }
+    }
+}
+
+fun runMutableProductsDemo(product1: Product, updatedProduct: Product, publishedProduct: Product) {
+    val mutableProducts = mutableListOf(product1, updatedProduct)
+
+    println("Mutable products count before add: ${mutableProducts.size}")
+
+    mutableProducts.add(publishedProduct)
+
+    println("Mutable products count after add: ${mutableProducts.size}")
+
+    mutableProducts.remove(product1)
+
+    println("Mutable products count after remove: ${mutableProducts.size}")
+
+    for (mutableProduct in mutableProducts) {
+        println("Mutable product: ${mutableProduct.name}, status: ${mutableProduct.status}")
+    }
+
+    mutableProducts[0] = mutableProducts[0].copy(quantity = 20)
+    println("First mutable product updated quantity: ${mutableProducts[0].quantity}")
+
+}
+
+fun runSingleProductDemo(productService: ProductService, product1: Product) {
     try {
         productService.validateProductData(product1)
 
@@ -285,4 +290,43 @@ fun main() {
     } catch (e: IllegalArgumentException) {
         println("Error: ${e.message}")
     }
+}
+
+fun main() {
+
+    val products = createProducts()
+    val product1 = products[0]
+
+    val updatedProduct = product1.copy(id = 1243125L, quantity = 10)
+    println("Original quantity: ${product1.quantity}")
+    println("Updated quantity: ${updatedProduct.quantity}")
+
+    val publishedProduct = product1.copy(id = 1243126L, status = ProductStatus.AVAILABLE)
+    println("Original status: ${product1.status}")
+    println("Published status: ${publishedProduct.status}")
+
+    println("Products count: ${products.size}")
+    println("First product name: ${products[0].name}")
+    println("Second product quantity: ${products[1].quantity}")
+    println("Third product status: ${products[2].status}")
+
+    val productService = ProductService()
+
+    runValidateProductsDemo(productService, products)
+
+    runAvailableProductsDemo(productService, products)
+
+    runFindProductDemo(productService, products)
+
+    runUpdateProductDemo(productService, products)
+
+    runDeleteProductDemo(productService, products)
+
+    runAddProductDemo(productService, products)
+
+    runProductCollectionDemo(productService, products)
+
+    runMutableProductsDemo(product1, updatedProduct, publishedProduct)
+
+    runSingleProductDemo(productService, product1)
 }
